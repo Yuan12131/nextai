@@ -45,7 +45,9 @@ const Gpt = () => {
     setInputValue(event.target.value);
   };
 
-  const handleAskQuestion = async () => {
+  const handleAskQuestion = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    
     try {
       const formData = new FormData();
       formData.append("question", inputValue);
