@@ -1,5 +1,41 @@
 "use client";
 import React, { useState } from "react";
+import styled from "styled-components";
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  padding: 5vw;
+`;
+
+const Input = styled.input`
+  width: 50vw;
+  height: 50vh;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 20px;
+`;
+
+const Button = styled.button`
+  width: 10vw;
+  height: 5vh;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+`;
+
+const Div = styled.div`
+  width: 50vw;
+  height: 20vh;
+  margin-left: 5vw;
+  background-color: beige;
+`;
 
 const Gpt = () => {
   const [inputValue, setInputValue] = useState("");
@@ -34,16 +70,16 @@ const Gpt = () => {
 
   return (
     <div>
-      <form onSubmit={handleAskQuestion}>
-        <input
+      <Form onSubmit={handleAskQuestion}>
+        <Input
           type="text"
           value={inputValue}
           onChange={handleInputChange}
           placeholder="질문을 입력하세요."
         />
-        <button type="submit">확인하기</button>
-      </form>
-      <div>{response}</div>
+        <Button type="submit">확인하기</Button>
+      </Form>
+      <Div>{response}</Div>
     </div>
   );
 };
