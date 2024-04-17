@@ -70,22 +70,23 @@ const Gpt = () => {
     }
   };
 
-  
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await fetch('/api/hello');
-          if (!response.ok) {
-            throw new Error('API request failed');
-          }
-          const responseData = await response.json();
-          setData(responseData);
-        } catch (error) {
-          console.error('Error fetching data:', error);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/hello", {
+          method: "GET",
+        });
+        if (!response.ok) {
+          throw new Error("API request failed");
         }
-      };
-      fetchData();
-    }, []);
+        const responseData = await response.json();
+        setData(responseData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <div>
@@ -99,13 +100,7 @@ const Gpt = () => {
         <Button type="submit">확인하기</Button>
       </Form>
       <Div>{response}</Div>
-      <div>
-      {data ? (
-        <p>{data.message}</p>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </div>
+      <div>{data ? <p>{data}</p> : <p>Loading...</p>}</div>
     </div>
   );
 };
