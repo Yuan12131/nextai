@@ -40,7 +40,7 @@ const Div = styled.div`
 const Gpt = () => {
   const [inputValue, setInputValue] = useState("");
   const [response, setResponse] = useState<any>(null);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<{ result: string } | null>(null);
 
   const handleInputChange = (event: any) => {
     setInputValue(event.target.value);
@@ -79,7 +79,7 @@ const Gpt = () => {
         if (!response.ok) {
           throw new Error("API request failed");
         }
-        const responseData = await response.json();
+        const responseData: { result: string } = await response.json();
         setData(responseData);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -100,7 +100,13 @@ const Gpt = () => {
         <Button type="submit">확인하기</Button>
       </Form>
       <Div>{response}</Div>
-      <div>{data ? <p>{data}</p> : <p>Loading...</p>}</div>
+      <div>
+      {data !== null && data.result ? (
+          <p>{data.result}</p>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </div>
     </div>
   );
 };
