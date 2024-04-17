@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const Form = styled.form`
@@ -40,6 +40,7 @@ const Div = styled.div`
 const Gpt = () => {
   const [inputValue, setInputValue] = useState("");
   const [response, setResponse] = useState<any>(null);
+  const [data, setData] = useState(null);
 
   const handleInputChange = (event: any) => {
     setInputValue(event.target.value);
@@ -47,7 +48,7 @@ const Gpt = () => {
 
   const handleAskQuestion = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
+
     try {
       const formData = new FormData();
       formData.append("question", inputValue);
@@ -64,11 +65,27 @@ const Gpt = () => {
       const { result } = await apiResponse.json();
 
       setResponse(result);
-      console.log(result);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
+
+  
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await fetch('/api/hello');
+          if (!response.ok) {
+            throw new Error('API request failed');
+          }
+          const responseData = await response.json();
+          setData(responseData);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+      fetchData();
+    }, []);
 
   return (
     <div>
@@ -82,6 +99,13 @@ const Gpt = () => {
         <Button type="submit">확인하기</Button>
       </Form>
       <Div>{response}</Div>
+      <div>
+      {data ? (
+        <p>{data.message}</p>
+      ) : (
+        <p>Loading...</p>
+      )}
+    </div>
     </div>
   );
 };
