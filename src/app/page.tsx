@@ -41,6 +41,9 @@ const Gpt = () => {
   const [inputValue, setInputValue] = useState("");
   const [response, setResponse] = useState<any>(null);
   const [data, setData] = useState<{ result: string } | null>(null);
+  const [name, setName] = useState('');
+  const [greeting, setGreeting] = useState('');
+  const [error, setError] = useState('');
 
   const handleInputChange = (event: any) => {
     setInputValue(event.target.value);
@@ -88,6 +91,21 @@ const Gpt = () => {
     fetchData();
   }, []);
 
+
+  const fetchGreeting = async () => {
+    try {
+      const response = await fetch(`/api/greet/${name}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch greeting');
+      }
+      const data = await response.json();
+      setGreeting(data.greeting);
+      setError('');
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   return (
     <div>
       <Form onSubmit={handleAskQuestion}>
@@ -107,6 +125,17 @@ const Gpt = () => {
           <p>Loading...</p>
         )}
       </div>
+      <div>
+      <input
+        type="text"
+        value={name}
+        onChange={e => setName(e.target.value)}
+        placeholder="Enter your name"
+      />
+      <button onClick={fetchGreeting}>제출</button>
+      {error && <p>Error: {error}</p>}
+      {greeting && <p>{greeting}</p>}
+    </div>
     </div>
   );
 };
