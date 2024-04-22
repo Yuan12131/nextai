@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export default async function GET(
   req: NextRequest,
-  { params }: { params: { name: string } }
+  { params }: { params: { detail: string } }
 ) {
-  const placeName = params.name;
+  const placeName = params.detail;
 
 
   if (!placeName) {
