@@ -41,7 +41,7 @@ const Gpt = () => {
   const [inputValue, setInputValue] = useState("");
   const [response, setResponse] = useState<any>(null);
   const [data, setData] = useState<{ result: string } | null>(null);
-  const [name, setName] = useState('');
+  const [detail, setDetail] = useState('');
   const [greeting, setGreeting] = useState('');
   const [error, setError] = useState('');
 
@@ -94,7 +94,7 @@ const Gpt = () => {
 
   const fetchGreeting = async () => {
     try {
-      const response = await fetch(`/api/greet/${name}`);
+      const response = await fetch(`/api/place/${detail}`);
       if (!response.ok) {
         throw new Error('Failed to fetch greeting');
       }
@@ -128,9 +128,9 @@ const Gpt = () => {
       <div>
       <input
         type="text"
-        value={name}
-        onChange={e => setName(e.target.value)}
-        placeholder="Enter your name"
+        value={detail}
+        onChange={e => setDetail(e.target.value)}
+        placeholder="Enter place name"
       />
       <button onClick={fetchGreeting}>제출</button>
       {error && <p>Error: {error}</p>}
