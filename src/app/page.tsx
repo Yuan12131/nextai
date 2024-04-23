@@ -94,14 +94,18 @@ const Gpt = () => {
 
   const fetchGreeting = async () => {
     try {
-      const response = await fetch("/api/place/${detail}", {
+      const response = await fetch("/api/place", {
         method: "POST",
+        headers: {
+          "Content-Type": "text/plain",
+        },
+        body: detail,
       });
       if (!response.ok) {
         throw new Error('Failed to fetch greeting');
       }
-      const data = await response.json();
-      setGreeting(data.greeting);
+      const { detailResponse } = await response.json();
+      setGreeting(detailResponse);
       setError('');
     } catch (error) {
       console.error("Error fetching data:", error);
