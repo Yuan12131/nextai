@@ -94,7 +94,9 @@ const Gpt = () => {
 
   const fetchGreeting = async () => {
     try {
-      const response = await fetch(`/api/place/${detail}`);
+      const response = await fetch("/api/place/${detail}", {
+        method: "POST",
+      });
       if (!response.ok) {
         throw new Error('Failed to fetch greeting');
       }
