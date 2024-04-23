@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export default async function GET(
+export async function POST(
   req: NextRequest,
   { params }: { params: { detail: string } }
 ) {
