@@ -1,4 +1,5 @@
 "use client";
+import { setgroups } from "process";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
@@ -41,9 +42,9 @@ const Gpt = () => {
   const [inputValue, setInputValue] = useState("");
   const [response, setResponse] = useState<any>(null);
   const [data, setData] = useState<{ result: string } | null>(null);
-  const [detail, setDetail] = useState('');
-  const [greeting, setGreeting] = useState('');
-  const [error, setError] = useState('');
+  const [detail, setDetail] = useState("");
+  const [greeting, setGreeting] = useState("");
+  const [error, setError] = useState("");
 
   const handleInputChange = (event: any) => {
     setInputValue(event.target.value);
@@ -91,22 +92,22 @@ const Gpt = () => {
     fetchData();
   }, []);
 
-
   const fetchGreeting = async () => {
     try {
-      const response = await fetch("/api/place", {
+      const apiResponse = await fetch("/api/place", {
         method: "POST",
         headers: {
           "Content-Type": "text/plain",
         },
         body: detail,
       });
-      if (!response.ok) {
-        throw new Error('Failed to fetch greeting');
+      if (!apiResponse.ok) {
+        throw new Error("Failed to fetch greeting");
       }
-      const { detailResponse } = await response.json();
+      const { detailResponse } = await apiResponse.json();
+
       setGreeting(detailResponse);
-      setError('');
+      setError("");
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -125,23 +126,23 @@ const Gpt = () => {
       </Form>
       <Div>{response}</Div>
       <div>
-      {data !== null && data.result ? (
+        {data !== null && data.result ? (
           <p>{data.result}</p>
         ) : (
           <p>Loading...</p>
         )}
       </div>
       <div>
-      <input
-        type="text"
-        value={detail}
-        onChange={e => setDetail(e.target.value)}
-        placeholder="Enter place name"
-      />
-      <button onClick={fetchGreeting}>제출</button>
-      {error && <p>Error: {error}</p>}
-      {greeting && <p>{greeting}</p>}
-    </div>
+        <input
+          type="text"
+          value={detail}
+          onChange={(e) => setDetail(e.target.value)}
+          placeholder="Enter place name"
+        />
+        <button onClick={fetchGreeting}>제출</button>
+        {error && <p>Error: {error}</p>}
+        <div>{greeting}</div>
+      </div>
     </div>
   );
 };
