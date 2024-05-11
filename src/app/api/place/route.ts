@@ -30,7 +30,8 @@ export async function POST(
     });
     
     const placeDetails = await Promise.all(placeDetailsPromises);
-    return NextResponse.json(placeDetails, { status: 200 });
+    console.log(placeDetails)
+    return NextResponse.json({placeDetails}, { status: 200 });
 
   } catch (error) {
     console.error(error);
